@@ -5,19 +5,48 @@
     Layout = "_layoutLogin";
 }
 
-@* <div class="background">
-    <div class="shape"></div>
-    <div class="shape"></div>
-    <img src="~/image/Background/gal5.jpg" class="bi" alt="backdrop">
+<div class="container-login100">
+	<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
+		<div class="col-2" style="margin:50px; ">
+			<br>
+			<h1>Login<br></h1>
+			<form action="" method="POST" class="login100-form validate-form flex-sb flex-w">
+
+				<div class="form-group">
+					<label for="username">Username</label>
+					<input class="form-control" type="text" name="username" placeholder="Username or Email" />
+				</div>
+
+
+				<div class="form-group">
+					<label for="password">Password</label>
+					<input class="form-control" type="password" name="password" placeholder="Password" />
+				</div>
+
+				<input type="submit" class="btn btn-success btn-block" name="login" value="Login" href="Produk"/>
+
+			</form>
+		</div>
+	</div>
+</div>
+
+@* <div class="col-2" style="margin:50px; ">
+	<br>
+	<h1>Login<br></h1>
+	<form action="" method="POST">
+
+		<div class="form-group">
+			<label for="username">Username</label>
+			<input class="form-control" type="text" name="username" placeholder="Username or Email" />
+		</div>
+
+
+		<div class="form-group">
+			<label for="password">Password</label>
+			<input class="form-control" type="password" name="password" placeholder="Password" />
+		</div>
+
+		<input type="submit" class="btn btn-success btn-block" name="login" value="Login" />
+
+	</form>
 </div> *@
-<form>
-    <h3>Login Here</h3>
-
-    <label for="username">Username</label>
-    <input type="text" placeholder="Who is using" id="username">
-
-    <label for="password">Password</label>
-    <input type="password" placeholder="Password" id="password">
-
-    <button>Log In</button>
-</form>
