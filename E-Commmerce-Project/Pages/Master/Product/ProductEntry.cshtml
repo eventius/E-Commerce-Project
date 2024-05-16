@@ -1,0 +1,96 @@
+﻿@page
+@model ProductEntryModel
+@{
+
+}
+@section title {
+    Product Entry
+}
+
+<form id="myForm" method="post">
+    <input type="hidden" id="hdnIsAdd" value="@(Model.IsAdd ? 1 : 0)" />
+    <input type="hidden" id="hdnID" value="@Model.ID" />
+    <table>
+        <tr>
+            <td>Product Name </td>
+            <td>@Html.TextBox("txtProductName", Model.Product.ProductName,"", new { style="width:100p%"})</td>
+        </tr>
+        <tr>
+            <td>Product Code </td>
+            <td>@Html.TextBox("txtProductCode", Model.Product.ProductCode,"", new { style="width:100p%"})</td>
+        </tr>
+        <tr>
+            <td>Quantity</td>
+            <td>@Html.TextBox("txtQuantity", Model.Product.ProductQuantity,"", new { style="width:100p%"})</td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td>@Html.TextBox("txtPrice", Model.Product.Price,"", new { style="width:100p%"})</td>
+        </tr>
+        <tr>
+            <td>Category</td>
+            <td>@Html.DropDownList("cboCategory", new SelectList(Model.LstCategory, "CategoryID", "CategoryName"),null, new { style="width:100p%"})</td>
+        </tr>
+        <tr>
+            <td>Alert At</td>
+            <td>@Html.TextBox("txtAlert", Model.Product.AlertAt,"", new { style="width:100p%"})</td>
+        </tr>
+        <tr>
+            <td>Last Update By</td>
+            <td>@Model.Product.LastUpdatedBy</td>
+        </tr>
+        <tr>
+            <td>Last Update Date</td>
+            <td>@Model.Product.LastUpdatedDate</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <select id="IsDelete">
+                    <option value=False>Input record</option>
+                    <option value=True>Delete Record</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    <input type="button" id="btnSave" value="save" />
+</form>
+@section scripts{
+        <script type="text/javascript">
+        $(function () {
+            $('#btnSave').click(function () {
+                var data = { hdnID: $('#hdnID').val(), IsAdd: $('#hdnIsAdd').val(), ProductName: $('#txtProductName').val(), ProductCode: $('#txtProductCode').val(),
+                    Quantity: $('#txtQuantity').val(), Price: $('#txtPrice').val(), Category: $('#cboCategory').val(), Alert: $('#txtAlert').val(), IsDeleted: $('#IsDelete').val()
+                };
+                $.ajax({
+                    headers: {
+                        "Access-Control-Allow-Origin": '*'
+                    },
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("XSRF-TOKEN",
+                            $('input:hidden[name="__RequestVerificationToken"]').val());
+                    },
+                    crossDomain: true,
+                    url: '@Url.Content("~")@Request.Path' + "?handler=SaveData",
+                    data: JSON.stringify(data),
+                    type: "POST",
+                    datatype: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+                        console.log(response);
+                        if (response.result) {
+                            alert('Save Success')
+                            document.location.href = "_Product";
+                        }
+                        else
+                            alert("Save Failed")
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(XMLHttpRequest.status);
+                    }
+                });
+            });
+        });
+    </script>
+}

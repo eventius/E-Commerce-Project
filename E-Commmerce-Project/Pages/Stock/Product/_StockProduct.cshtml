@@ -1,0 +1,30 @@
+﻿@page
+@using DWYT.MOE.Pages;
+@model StockModel
+
+@section title {
+    Product Stock
+}
+
+<div>
+    <table>
+        <tr>
+            <th style="width:150px">Product Code</th>
+            <th style="width:270px">Product Name</th>
+            <th style="width:75px">Quantity</th>
+            <th style="width:15px"></th>
+            <th>Detail</th>
+        </tr>
+        @foreach (var p in Model.lstProduct)
+        {
+            <tr>
+                <td>@p.ProductCode</td>
+                <td>@p.ProductName</td>
+                <td style="text-align:right">@p.ProductQuantity</td>
+                <td></td>
+                
+                <td><a href="StockProductEntry?id=@p.ProductID">Edit</a></td>
+            </tr>
+        }
+    </table>
+</div>

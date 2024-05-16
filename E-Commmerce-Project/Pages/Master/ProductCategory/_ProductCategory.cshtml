@@ -1,0 +1,31 @@
+﻿@page
+@model CategoryListModel
+@{
+
+}
+@section title {
+    Category List
+}
+<div>
+    <table>
+        <tr>
+            <td><a href="ProductCategoryEntry">Add</a></td>
+        </tr>
+        <tr>
+            <th style="width:150px">Category Code</th>
+            <th style="width:150px"> Category Name</th>
+            
+            <th>Detail</th>
+        </tr>
+        
+        @foreach (var ctg in Model.lstCategory)
+        {
+            <tr>
+                <td>@ctg.CategoryCode</td>
+                <td>@ctg.CategoryName</td>
+                
+                <td><a href="ProductCategoryEntry?id=@ctg.CategoryID">Edit</a></td>
+            </tr>
+        }
+    </table>
+</div>

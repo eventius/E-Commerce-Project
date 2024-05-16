@@ -1,0 +1,88 @@
+﻿@page
+@model TransactionOrderEntryModel
+@{
+
+}
+@section title {
+    Product Entry
+}
+
+<form id="myForm" method="post">
+    <input type="hidden" id="hdnIsAdd" value="@(Model.IsAdd ? 1 : 0)" />
+    <input type="hidden" id="hdnID" value="@Model.ID" />
+    <table>
+        <tr>
+            <td>Transaction No </td>
+            <td>@Html.TextBox("txtTransactionNo", Model.transactionhd.TransactionNo,"", new { style="width:100p%"})</td>
+        </tr>
+        <tr>
+            <td>Recevier Name </td>
+            <td>@Html.TextBox("txtName", Model.transactionhd.RecevierName,"", new { style="width:100p%"})</td>
+        </tr>
+        <tr>
+            <td>Shipper</td>
+            <td>@Html.DropDownList("cboShipper", new SelectList(Model.lstShipper, "ShipperID", "ShipperName"),null, new { style="width:100p%"})</td>
+        </tr>
+        <tr>
+            <td>Shipping Address</td>
+            <td>@Html.TextBox("txtAddress", Model.transactionhd.ShippingAddress,"", new { style="width:100p%"})</td>
+        </tr>
+        <tr>
+            <td>Shipping No</td>
+            <td>@Html.TextBox("txtShippingNo", Model.transactionhd.ShippingNo,"", new { style="width:100p%"})</td>
+        </tr>
+        <tr>
+            <td>Order Status</td>
+            <td>@Html.DropDownList("cboOrder", new SelectList(Model.lstOrderStatus, "OrderStatusID", "OrderStatus1"),null, new { style="width:100p%"})</td>
+        </tr>
+        <tr>
+            <td>Last Update By</td>
+            <td>@Model.transactionhd.LastUpdatedBy</td>
+        </tr>
+        <tr>
+            <td>Last Update Date</td>
+            <td>@Model.transactionhd.LastUpdatedDate</td>
+        </tr>
+    </table>
+
+    <input type="button" id="btnSave" value="save" />
+</form>
+@section scripts{
+        <script type="text/javascript">
+        $(function () {
+            $('#btnSave').click(function () {
+                var data = {
+                    hdnID: $('#hdnID').val(), hdnIsAdd: $('#hdnIsAdd').val(), TransactionNo: $('#txtTransactionNo').val(), Name: $('#txtName').val(),
+                    Shipper: $('#cboShipper').val(), Address: $('#txtAddress').val(), ShippingNo: $('#txtShippingNo').val(), OrderStatus: $('#cboOrder').val()
+                };
+                $.ajax({
+                    headers: {
+                        "Access-Control-Allow-Origin": '*'
+                    },
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("XSRF-TOKEN",
+                            $('input:hidden[name="__RequestVerificationToken"]').val());
+                    },
+                    crossDomain: true,
+                    url: '@Url.Content("~")@Request.Path' + "?handler=SaveData",
+                    data: JSON.stringify(data),
+                    type: "POST",
+                    datatype: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+                        console.log(response);
+                        if (response.result) {
+                            alert('Save Success')
+                            document.location.href = "_TransactionOrder";
+                        }
+                        else
+                            alert("Save Failed")
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(XMLHttpRequest.status);
+                    }
+                });
+            });
+        });
+    </script>
+}

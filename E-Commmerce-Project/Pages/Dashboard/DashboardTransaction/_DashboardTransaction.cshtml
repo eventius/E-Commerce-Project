@@ -1,0 +1,22 @@
+﻿@page
+@model DashboardListModel
+@{
+
+}
+@section title {
+    Dashboard Transaction
+}
+<div>
+    <table>
+        @foreach(var Order in Model.lstOrderStatus)
+        {
+            <tr>
+            <th style="width:150px">@Order.OrderStatus1</th>
+            <th style="font-size:20px"> 
+                    @Model.lstProductOrderTransactionHd.Where(x => x.OrderStatusID == Order.OrderStatusID).Count()
+            </th>
+        </tr>
+        }
+      
+    </table>
+</div>

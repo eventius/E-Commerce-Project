@@ -1,0 +1,28 @@
+﻿@page
+@model ShiperListModel
+@{
+
+}
+@section title {
+    Shipper List
+}
+<div>
+    <table>
+        <tr>
+            <td><a href="ShipperEntry">Add</a></td>
+        </tr>
+        <tr>
+            <th style="width:150px">Shipper Name</th>
+        </tr>
+        @foreach (var list in Model.lstShipper)
+        {
+            <tr>
+                <td>@list.ShipperName</td>
+               
+                
+                <td><a href="ShipperEntry?id=@list.ShipperID">Edit</a></td>
+            </tr>
+        }
+      
+    </table>
+</div>

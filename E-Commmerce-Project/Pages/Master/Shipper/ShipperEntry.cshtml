@@ -1,0 +1,57 @@
+﻿@page
+@model ShipperEntryModel
+@{
+
+}
+@section title {
+    Shipper Entry
+}
+
+<form id="myForm" method="post">
+    <input type="hidden" id="hdnIsAdd" value="@(Model.IsAdd ? 1 : 0)" />
+    <input type="hidden" id="hdnID" value="@Model.ID" />
+    <table>
+        <tr>
+            <td>Shipper Name </td>
+            <td>@Html.TextBox("txtShipperName", Model.shipper.ShipperName,"", new { style="width:100p%"})</td>
+        </tr>
+    </table>
+
+    <input type="button" id="btnSave" value="save" />
+</form>
+@section scripts{
+        <script type="text/javascript">
+        $(function () {
+            $('#btnSave').click(function () {
+                var data = { hdnID: $('#hdnID').val(), IsAdd: $('#hdnIsAdd').val(), ShipperName: $('#txtShipperName').val()};
+                $.ajax({
+                    headers: {
+                        "Access-Control-Allow-Origin": '*'
+                    },
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("XSRF-TOKEN",
+                            $('input:hidden[name="__RequestVerificationToken"]').val());
+                    },
+                    crossDomain: true,
+                    url: '@Url.Content("~")@Request.Path' + "?handler=SaveData",
+                    data: JSON.stringify(data),
+                    type: "POST",
+                    datatype: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+                        console.log(response);
+                        if (response.result) {
+                            alert('Save Success')
+                            document.location.href = "_Shipper";
+                        }
+                        else
+                            alert("Save Failed")
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(XMLHttpRequest.status);
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,42 @@
+﻿@page
+@model TransactionListModel
+@{
+
+}
+@section title {
+    Transaction List
+}
+
+<div>
+    <table>
+        <tr>
+            <td>Order Status</td>
+            <td>@Html.DropDownList("cboOrderStatus", new SelectList(Model.lstOrderStatus, "OrderStatusID", "OrderStatus1"),null, new { style="width:100p%"})</td>
+        </tr>
+    </table>
+    <div id="divContainerGridView"></div>
+</div>
+
+@section scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            $('#cboOrderStatus').change(function () {
+                var data = { handler: "GridView", OrderStatus: $('#cboOrderStatus').val() };
+                $.ajax({
+                    url: '@Url.Content("~")@Request.Path',
+                    type: "GET",
+                    data: data,
+                    success: function (response) {
+                        $('#divContainerGridView').html(response);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(XMLHttpRequest);
+                    }
+                });
+            });
+                $('#cboOrderStatus').change();
+        })
+    </script>
+}
